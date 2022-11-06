@@ -1,0 +1,430 @@
+public static void leagueLeaders2(ArrayList<Player> playerList){
+        System.out.println("\nON-BASE PERCENTAGE");
+
+        double first, second, third;
+        int firstCount = 0, secondCount = 0;
+
+        String firstPlayerNames = "";
+
+        double  bestScore = playerList.get(0).onBasePerc();
+
+        for(int i = 0; i < playerList.size(); i++){
+            if(bestScore < playerList.get(i).onBasePerc()){
+                bestScore = playerList.get(i).onBasePerc();
+            }
+        }
+        boolean firstPlayerInString = true;
+        for(int i = 0; i < playerList.size(); i++){
+            if(playerList.get(i).onBasePerc() == bestScore){
+                if(firstPlayerInString){
+                    firstPlayerNames += playerList.get(i).name;
+                    firstPlayerInString = false;
+                }
+                else{
+                    firstPlayerNames += ", " + playerList.get(i).name;
+                }
+                firstCount++;
+            }
+        }
+        System.out.printf("%.3f\t%s\n", bestScore, firstPlayerNames);
+        if(firstCount < 3){
+            String secondPlayerNames = "";
+
+            double  secondBestScore = -100;
+
+            for(int i = 0; i < playerList.size(); i++){
+                if(secondBestScore < playerList.get(i).onBasePerc() && playerList.get(i).onBasePerc() != bestScore){
+                    secondBestScore = playerList.get(i).onBasePerc();
+                }
+            }
+            firstPlayerInString = true;
+            for(int i = 0; i < playerList.size(); i++){
+                if(playerList.get(i).onBasePerc() == secondBestScore){
+                    if(firstPlayerInString) {
+                        secondPlayerNames += playerList.get(i).name;
+                        firstPlayerInString = false;
+                    }
+                    else{
+                        secondPlayerNames += ", " + playerList.get(i).name;
+                    }
+                    secondCount++;
+                }
+            }
+            if(secondBestScore != -100) {
+                System.out.printf("%.3f\t%s\n", secondBestScore, secondPlayerNames);
+            }
+            if((firstCount + secondCount) < 3){
+                String thirdPlayerNames = "";
+
+                double  thirdBestScore = -100;
+
+                for(int i = 0; i < playerList.size(); i++){
+                    if(thirdBestScore < playerList.get(i).onBasePerc() && playerList.get(i).onBasePerc() != bestScore && playerList.get(i).onBasePerc() != secondBestScore){
+                        thirdBestScore = playerList.get(i).onBasePerc();
+                    }
+                }
+                firstPlayerInString = true;
+                for(int i = 0; i < playerList.size(); i++){
+                    if(playerList.get(i).onBasePerc() == thirdBestScore){
+                        if(firstPlayerInString){
+                            thirdPlayerNames += playerList.get(i).name;
+                            firstPlayerInString = false;
+                        }
+                        else{
+                            thirdPlayerNames += ", " + playerList.get(i).name;
+                        }
+                        secondCount++;
+                    }
+                }
+                if(thirdBestScore != -100) {
+                    System.out.printf("%.3f\t%s\n", thirdBestScore, thirdPlayerNames);
+                }
+            }
+        }
+
+
+    }
+    public static void leagueLeaders3(ArrayList<Player> playerList){
+        System.out.println("\nHITS");
+
+        double first, second, third;
+        int firstCount = 0, secondCount = 0;
+
+        String firstPlayerNames = "";
+
+        double  bestScore = playerList.get(0).stats[0];
+
+        for(int i = 0; i < playerList.size(); i++){
+            if(bestScore < playerList.get(i).stats[0]){
+                bestScore = playerList.get(i).stats[0];
+            }
+        }
+        boolean firstPlayerInString = true;
+        for(int i = 0; i < playerList.size(); i++){
+            if(playerList.get(i).stats[0] == bestScore){
+                if(firstPlayerInString){
+                    firstPlayerNames += playerList.get(i).name;
+                    firstPlayerInString = false;
+                }
+                else{
+                    firstPlayerNames += ", " + playerList.get(i).name;
+                }
+                firstCount++;
+            }
+        }
+        System.out.printf("%.0f\t%s\n", bestScore, firstPlayerNames);
+        if(firstCount < 3){
+            String secondPlayerNames = "";
+
+            double  secondBestScore = -100;
+
+            for(int i = 0; i < playerList.size(); i++){
+                if(secondBestScore < playerList.get(i).stats[0] && playerList.get(i).stats[0] != bestScore){
+                    secondBestScore = playerList.get(i).stats[0];
+                }
+            }
+            firstPlayerInString = true;
+            for(int i = 0; i < playerList.size(); i++){
+                if(playerList.get(i).stats[0] == secondBestScore){
+                    if(firstPlayerInString) {
+                        secondPlayerNames += playerList.get(i).name;
+                        firstPlayerInString = false;
+                    }
+                    else{
+                        secondPlayerNames += ", " + playerList.get(i).name;
+                    }
+                    secondCount++;
+                }
+            }
+            if(secondBestScore != -100) {
+                System.out.printf("%.0f\t%s\n", secondBestScore, secondPlayerNames);
+            }
+            if((firstCount + secondCount) < 3){
+                String thirdPlayerNames = "";
+
+                double  thirdBestScore = -100;
+
+                for(int i = 0; i < playerList.size(); i++){
+                    if(thirdBestScore < playerList.get(i).stats[0] && playerList.get(i).stats[0] != bestScore && playerList.get(i).stats[0] != secondBestScore){
+                        thirdBestScore = playerList.get(i).stats[0];
+                    }
+                }
+                firstPlayerInString = true;
+                for(int i = 0; i < playerList.size(); i++){
+                    if(playerList.get(i).stats[0] == thirdBestScore){
+                        if(firstPlayerInString){
+                            thirdPlayerNames += playerList.get(i).name;
+                            firstPlayerInString = false;
+                        }
+                        else{
+                            thirdPlayerNames += ", " + playerList.get(i).name;
+                        }
+                        secondCount++;
+                    }
+                }
+                if(thirdBestScore != -100) {
+                    System.out.printf("%.0f\t%s\n", thirdBestScore, thirdPlayerNames);
+                }
+            }
+        }
+
+
+    }
+    public static void leagueLeaders4(ArrayList<Player> playerList){
+        System.out.println("\nWALKS");
+
+        double first, second, third;
+        int firstCount = 0, secondCount = 0;
+
+        String firstPlayerNames = "";
+
+        double  bestScore = playerList.get(0).stats[3];
+
+        for(int i = 0; i < playerList.size(); i++){
+            if(bestScore < playerList.get(i).stats[3]){
+                bestScore = playerList.get(i).stats[3];
+            }
+        }
+        boolean firstPlayerInString = true;
+        for(int i = 0; i < playerList.size(); i++){
+            if(playerList.get(i).stats[3] == bestScore){
+                if(firstPlayerInString){
+                    firstPlayerNames += playerList.get(i).name;
+                    firstPlayerInString = false;
+                }
+                else{
+                    firstPlayerNames += ", " + playerList.get(i).name;
+                }
+                firstCount++;
+            }
+        }
+        System.out.printf("%.0f\t%s\n", bestScore, firstPlayerNames);
+        if(firstCount < 3){
+            String secondPlayerNames = "";
+
+            double  secondBestScore = -100;
+
+            for(int i = 0; i < playerList.size(); i++){
+                if(secondBestScore < playerList.get(i).stats[3] && playerList.get(i).stats[3] != bestScore){
+                    secondBestScore = playerList.get(i).stats[3];
+                }
+            }
+            firstPlayerInString = true;
+            for(int i = 0; i < playerList.size(); i++){
+                if(playerList.get(i).stats[3] == secondBestScore){
+                    if(firstPlayerInString) {
+                        secondPlayerNames += playerList.get(i).name;
+                        firstPlayerInString = false;
+                    }
+                    else{
+                        secondPlayerNames += ", " + playerList.get(i).name;
+                    }
+                    secondCount++;
+                }
+            }
+            if(secondBestScore != -100) {
+                System.out.printf("%.0f\t%s\n", secondBestScore, secondPlayerNames);
+            }
+            if((firstCount + secondCount) < 3){
+                String thirdPlayerNames = "";
+
+                double  thirdBestScore = -100;
+
+                for(int i = 0; i < playerList.size(); i++){
+                    if(thirdBestScore < playerList.get(i).stats[3] && playerList.get(i).stats[3] != bestScore && playerList.get(i).stats[3] != secondBestScore){
+                        thirdBestScore = playerList.get(i).stats[3];
+                    }
+                }
+                firstPlayerInString = true;
+                for(int i = 0; i < playerList.size(); i++){
+                    if(playerList.get(i).stats[3] == thirdBestScore){
+                        if(firstPlayerInString){
+                            thirdPlayerNames += playerList.get(i).name;
+                            firstPlayerInString = false;
+                        }
+                        else{
+                            thirdPlayerNames += ", " + playerList.get(i).name;
+                        }
+                        secondCount++;
+                    }
+                }
+                if(thirdBestScore != -100) {
+                    System.out.printf("%.0f\t%s\n", thirdBestScore, thirdPlayerNames);
+                }
+            }
+        }
+
+
+    }
+    public static void leagueLeaders5(ArrayList<Player> playerList){
+        System.out.println("\nSTRIKEOUTS");
+
+        double first, second, third;
+        int firstCount = 0, secondCount = 0;
+
+        String firstPlayerNames = "";
+
+        double  bestScore = playerList.get(0).stats[2];
+
+        for(int i = 0; i < playerList.size(); i++){
+            if(bestScore > playerList.get(i).stats[2]){
+                bestScore = playerList.get(i).stats[2];
+            }
+        }
+        boolean firstPlayerInString = true;
+        for(int i = 0; i < playerList.size(); i++){
+            if(playerList.get(i).stats[2] == bestScore){
+                if(firstPlayerInString){
+                    firstPlayerNames += playerList.get(i).name;
+                    firstPlayerInString = false;
+                }
+                else{
+                    firstPlayerNames += ", " + playerList.get(i).name;
+                }
+                firstCount++;
+            }
+        }
+        System.out.printf("%.0f\t%s\n", bestScore, firstPlayerNames);
+        if(firstCount < 3){
+            String secondPlayerNames = "";
+
+            double  secondBestScore = 1000000;
+
+            for(int i = 0; i < playerList.size(); i++){
+                if(secondBestScore > playerList.get(i).stats[2] && playerList.get(i).stats[2] != bestScore){
+                    secondBestScore = playerList.get(i).stats[2];
+                }
+            }
+            firstPlayerInString = true;
+            for(int i = 0; i < playerList.size(); i++){
+                if(playerList.get(i).stats[2] == secondBestScore){
+                    if(firstPlayerInString) {
+                        secondPlayerNames += playerList.get(i).name;
+                        firstPlayerInString = false;
+                    }
+                    else{
+                        secondPlayerNames += ", " + playerList.get(i).name;
+                    }
+                    secondCount++;
+                }
+            }
+            if(secondBestScore != 1000000) {
+                System.out.printf("%.0f\t%s\n", secondBestScore, secondPlayerNames);
+            }
+            if((firstCount + secondCount) < 3){
+                String thirdPlayerNames = "";
+
+                double  thirdBestScore = 1000000;
+
+                for(int i = 0; i < playerList.size(); i++){
+                    if(thirdBestScore > playerList.get(i).stats[2] && playerList.get(i).stats[2] != bestScore && playerList.get(i).stats[2] != secondBestScore){
+                        thirdBestScore = playerList.get(i).stats[2];
+                    }
+                }
+                firstPlayerInString = true;
+                for(int i = 0; i < playerList.size(); i++){
+                    if(playerList.get(i).stats[2] == thirdBestScore){
+                        if(firstPlayerInString){
+                            thirdPlayerNames += playerList.get(i).name;
+                            firstPlayerInString = false;
+                        }
+                        else{
+                            thirdPlayerNames += ", " + playerList.get(i).name;
+                        }
+                        secondCount++;
+                    }
+                }
+                if(thirdBestScore != 1000000) {
+                    System.out.printf("%.0f\t%s\n", thirdBestScore, thirdPlayerNames);
+                }
+            }
+        }
+
+
+    }
+    public static void leagueLeaders6(ArrayList<Player> playerList){
+        System.out.println("\nHIT BY PITCH");
+
+        double first, second, third;
+        int firstCount = 0, secondCount = 0;
+
+        String firstPlayerNames = "";
+
+        double  bestScore = playerList.get(0).stats[4];
+
+        for(int i = 0; i < playerList.size(); i++){
+            if(bestScore < playerList.get(i).stats[4]){
+                bestScore = playerList.get(i).stats[4];
+            }
+        }
+        boolean firstPlayerInString = true;
+        for(int i = 0; i < playerList.size(); i++){
+            if(playerList.get(i).stats[4] == bestScore){
+                if(firstPlayerInString){
+                    firstPlayerNames += playerList.get(i).name;
+                    firstPlayerInString = false;
+                }
+                else{
+                    firstPlayerNames += ", " + playerList.get(i).name;
+                }
+                firstCount++;
+            }
+        }
+        System.out.printf("%.0f\t%s\n", bestScore, firstPlayerNames);
+        if(firstCount < 3){
+            String secondPlayerNames = "";
+
+            double  secondBestScore = -100;
+
+            for(int i = 0; i < playerList.size(); i++){
+                if(secondBestScore < playerList.get(i).stats[4] && playerList.get(i).stats[4] != bestScore){
+                    secondBestScore = playerList.get(i).stats[4];
+                }
+            }
+            firstPlayerInString = true;
+            for(int i = 0; i < playerList.size(); i++){
+                if(playerList.get(i).stats[4] == secondBestScore){
+                    if(firstPlayerInString) {
+                        secondPlayerNames += playerList.get(i).name;
+                        firstPlayerInString = false;
+                    }
+                    else{
+                        secondPlayerNames += ", " + playerList.get(i).name;
+                    }
+                    secondCount++;
+                }
+            }
+            if(secondBestScore != -100) {
+                System.out.printf("%.0f\t%s\n", secondBestScore, secondPlayerNames);
+            }
+            if((firstCount + secondCount) < 3){
+                String thirdPlayerNames = "";
+
+                double  thirdBestScore = -100;
+
+                for(int i = 0; i < playerList.size(); i++){
+                    if(thirdBestScore < playerList.get(i).stats[4] && playerList.get(i).stats[4] != bestScore && playerList.get(i).stats[4] != secondBestScore){
+                        thirdBestScore = playerList.get(i).stats[4];
+                    }
+                }
+                firstPlayerInString = true;
+                for(int i = 0; i < playerList.size(); i++){
+                    if(playerList.get(i).stats[4] == thirdBestScore){
+                        if(firstPlayerInString){
+                            thirdPlayerNames += playerList.get(i).name;
+                            firstPlayerInString = false;
+                        }
+                        else{
+                            thirdPlayerNames += ", " + playerList.get(i).name;
+                        }
+                        secondCount++;
+                    }
+                }
+                if(thirdBestScore != -100) {
+                    System.out.printf("%.0f\t%s\n", thirdBestScore, thirdPlayerNames);
+                }
+            }
+        }
+
+
+    }

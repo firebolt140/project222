@@ -1,0 +1,240 @@
+//Christian Flores
+//CDF200003
+
+import java.io.File;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        //Initializing and declaring variables
+        String fileName;
+        String stats;
+        LinkList<Player> list = new LinkList<Player>();
+
+
+        Scanner userInput = new Scanner(System.in); //Creating input stream for input file to get data from user
+
+        System.out.print("Enter file name: "); //Ask the user for the file name with the players data
+
+        fileName = userInput.nextLine(); //Read in the users next line of input to file name variable
+
+
+        System.out.println();
+
+        File inputFile = new File(fileName); //Creates a file object that points to the file with player data
+
+        userInput.close(); //Closing the input stream for the input file since user input is no longer needed
+
+        try {
+            Scanner ifstream = new Scanner(inputFile); //Creating input stream for the file
+
+            while (ifstream.hasNextLine()) { //While there is a next line in the file
+                Scanner lineScanner = new Scanner(ifstream.nextLine()); //Creating input stream to read in each line
+
+                String holdName = lineScanner.next();//Read in until white space is found to a string to hold the name of the player
+
+                stats = lineScanner.nextLine(); //Read in the next line to a string to hold the stats
+
+                Node<Player> temp = list.head; //Set a temporary node to the head of the list
+                if(temp == null) { //If list is empty create a new player at the head
+                    Player tempPlayer = new Player(holdName); //Create a player object and pass in the name read in
+                    Node<Player> tempNode = list.insert(list, tempPlayer); //Insert new node with the new player object in it and set a temporary node to the new node
+                    tempNode.data.setStats(stats); //Call a function to parse the new data into usable stats and inject the stats into the player objects
+                }
+                else { //If list is not empty
+                    if (temp.data.getName().equals(holdName)) { //Check if the head equals a player that already exists
+                        temp.data.setStats(stats); //Call a function to parse the new data into usable stats and inject the stats into the player objects
+                    } else { //If the head does not equal the player search through the rest of the list
+                        boolean playerFound = false;
+                        while (temp.next != null && !playerFound) { //While next node in the list is not null and the player has not been found in the list
+                            temp = temp.next; //Set the temporary node to the next node in the list
+                            if (temp.data.getName().equals(holdName)) { //If the player in the list already exists combine the stats
+                                temp.data.setStats(stats); //Call a function to parse the new data into usable stats and inject the stats into the player objects
+                                playerFound = true; //Player was found in list already stop searching and combine stats
+                            }
+                        }
+                        if (!playerFound) { //If player is not found in the list create a new player
+                            Player tempPlayer = new Player(holdName); //Create a player object and pass in the name read in
+                            Node<Player> tempNode = list.insert(list, tempPlayer); //Insert new node with the new player object in it and set a temporary node to the new node
+                            tempNode.data.setStats(stats); //Call a function to parse the new data into usable stats and inject the stats into the player objects
+                        }
+                    }
+                }
+
+                lineScanner.close(); //Close input stream object
+            }
+            ifstream.close(); //Close input stream object
+
+        } catch (Exception e) { //Catches any exceptions that are thrown if the file does not open properly
+            System.out.println("Failed to open file.");
+            return;
+        }
+
+        list.sortList(list.head); //Call sort list method
+        list.recursivePrint(list.head); //Call recursive print method
+
+        System.out.println("\nLEAGUE LEADERS");
+        System.out.println("BATTING AVERAGE");
+        leagueLeaders(list.convertToArray(list.head), 6); //Call league leader function and pass in array list conversion of list and choose stat6: batting average
+        System.out.println("\nON-BASE PERCENTAGE");
+        leagueLeaders(list.convertToArray(list.head), 7); //Call league leader function and pass in array list conversion of list and choose stat7: on base percentage
+        System.out.println("\nHITS");
+        leagueLeaders(list.convertToArray(list.head), 0);  //Call league leader function and pass in array list conversion of list and choose stat0: hits
+        System.out.println("\nWALKS");
+        leagueLeaders(list.convertToArray(list.head), 3);  //Call league leader function and pass in array list conversion of list and choose stat3: walks
+        System.out.println("\nSTRIKEOUTS");
+        leagueLeaders(list.convertToArray(list.head), 2);  //Call league leader function and pass in array list conversion of list and choose stat2: strikeouts
+        System.out.println("\nHIT BY PITCH");
+        leagueLeaders(list.convertToArray(list.head), 4);  //Call league leader function and pass in array list conversion of list and choose stat4: hit by pitches
+        System.out.println();
+
+    }
+    public static void leagueLeaders(ArrayList<Player> playerList, int chosenStat){
+        //Initializing and declaring variables
+        int firstCount = 0, secondCount = 0;
+        ArrayList<String> playerNamesList = new ArrayList<String>();
+
+
+        //Set best score to the first players stat then for the amount of players in the list go through and see if their stat is better
+        //If there stat is better than change the best stat to their stat (less than is best for stat2: strikeouts)
+        double  bestScore = playerList.get(0).getStats(chosenStat);
+        double secondBestScore = -100, thirdBestScore = -100;
+        for(int i = 0; i < playerList.size(); i++){
+            if(chosenStat != 2) {
+                if (bestScore < playerList.get(i).getStats(chosenStat)) {
+                    bestScore = playerList.get(i).getStats(chosenStat);
+                }
+            }
+            else{
+                if (bestScore > playerList.get(i).getStats(chosenStat)) {
+                    bestScore = playerList.get(i).getStats(chosenStat);
+                }
+            }
+        }
+        //For all the players in the list check if their stat equals the best stat if it does then add them to the best players list
+        //Then increase the count of people in first place
+        for(int i = 0; i < playerList.size(); i++){
+            if(playerList.get(i).getStats(chosenStat) == bestScore){
+                playerNamesList.add(playerList.get(i).getName());
+                firstCount++;
+            }
+        }
+        Collections.sort(playerNamesList); //Sort best player name list
+        //If on base percentage or batting average print with 3 decimal places
+        //Else print with 0
+        if(chosenStat == 6 || chosenStat == 7) {
+            System.out.printf("%.3f\t", bestScore);
+        }
+        else{
+            System.out.printf("%.0f\t", bestScore);
+        }
+        printBestList(playerNamesList);
+        //If there are less than 3 players in the first place then continue
+        if(firstCount < 3){
+            //Clear the bst name list
+            playerNamesList.clear();
+
+            //Set the second best score to a value that is always smaller if the stat is not strikeouts and then always greater than other stats if
+            //the stat is strikeouts
+            if(chosenStat != 2) {
+                secondBestScore = -100;
+            }
+            else{
+                secondBestScore = 100000;
+            }
+            //For the amount of players in the list go through and see if their stat is better
+            //If there stat is better than change the best stat to their stat (less than is best for stat2: strikeouts)
+            for(int i = 0; i < playerList.size(); i++){
+                if(chosenStat != 2) {
+                    if (secondBestScore < playerList.get(i).getStats(chosenStat) && playerList.get(i).getStats(chosenStat) != bestScore) {
+                        secondBestScore = playerList.get(i).getStats(chosenStat);
+                    }
+                }
+                else{
+                    if (secondBestScore > playerList.get(i).getStats(chosenStat) && playerList.get(i).getStats(chosenStat) != bestScore) {
+                        secondBestScore = playerList.get(i).getStats(chosenStat);
+                    }
+                }
+            }
+            //For all the players in the list check if their stat equals the best stat if it does then add them to the best players list
+            //Then increase the count of people in first place
+            for(int i = 0; i < playerList.size(); i++){
+                if(playerList.get(i).getStats(chosenStat) == secondBestScore){
+                    playerNamesList.add(playerList.get(i).getName());
+                    secondCount++;
+                }
+            }
+            Collections.sort(playerNamesList);  //Sort best player name list
+            //If on base percentage or batting average print with 3 decimal places
+            //Else print with 0
+            if(chosenStat == 6 || chosenStat == 7) {
+                System.out.printf("%.3f\t", secondBestScore);
+            }
+            else{
+                System.out.printf("%.0f\t", secondBestScore);
+            }
+            printBestList(playerNamesList);
+
+            //If there are less than 3 players in the first and second place combined then continue
+            if((firstCount + secondCount) < 3){
+                //Clear the best player name list
+                playerNamesList.clear();
+
+                //Set the third best score to a value that is always smaller if the stat is not strikeouts and then always greater than other stats if
+                //the stat is strikeouts
+                if(chosenStat != 2){
+                    thirdBestScore = -100;
+                }
+                else{
+                    thirdBestScore = 100000;
+                }
+                //Call find best score function and pass in variables
+                findBestScores(playerList, chosenStat, bestScore, secondBestScore, thirdBestScore);
+
+                //For all the players in the list check if their stat equals the best stat if it does then add them to the best players list
+                //Then increase the count of people in first place
+                for(int i = 0; i < playerList.size(); i++){
+                    if(playerList.get(i).getStats(chosenStat) == thirdBestScore){
+                        playerNamesList.add(playerList.get(i).getName());
+                        secondCount++;
+                    }
+                }
+                Collections.sort(playerNamesList); //Sort the best player name list
+                //If on base percentage or batting average print with 3 decimal places
+                //Else print with 0
+                if(chosenStat == 6 || chosenStat == 7) {
+                    System.out.printf("%.3f\t", thirdBestScore);
+                }
+                else{
+                    System.out.printf("%.0f\t", thirdBestScore);
+                }
+                printBestList(playerNamesList);
+            }
+        }
+    }
+    public static void printBestList(ArrayList<String> playerNamesList){
+        boolean firstWord = true; //Keeps track if its the first player in the list
+        //For the amount of players in the list print out their name and add a comma before their name if they arent the first in the list
+        for(int i = 0; i < playerNamesList.size(); i++){
+            if(!firstWord){
+                System.out.print(", ");
+            }
+            System.out.print(playerNamesList.get(i));
+            firstWord = false;
+        }
+        System.out.println();
+    }
+    public static void findBestScores(ArrayList<Player> playerList, int chosenStat, double[] bestScore, int chosenBest) {
+        for (int i = 0; i < playerList.size(); i++) {
+            if (chosenStat != 2) {
+                if (bestScore[chosenBest] < playerList.get(i).getStats(chosenStat) && playerList.get(i).getStats(chosenStat) != bestScore[0] && playerList.get(i).getStats(chosenStat) != secondBestScore) {
+                    bestScore[chosenBest] = playerList.get(i).getStats(chosenStat);
+                }
+            } else {
+                if (bestScore[chosenBest] > playerList.get(i).getStats(chosenStat) && playerList.get(i).getStats(chosenStat) != bestScore[chosenBest] && playerList.get(i).getStats(chosenStat) != secondBestScore) {
+                    bestScore[chosenBest] = playerList.get(i).getStats(chosenStat);
+                }
+            }
+        }
+    }
+}
